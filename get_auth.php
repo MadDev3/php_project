@@ -43,8 +43,6 @@
     }
     else{
         if($myrow['password'] == $password){
-            $_SESSION['login'] = $myrow['login'];
-            $_SESSION['id'] = $myrow['id'];
             setcookie("login", $login, time() + 2592000);
             setcookie("password", $password, time() + 2592000);
             header("Location: http://qwerty/index.php");
