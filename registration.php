@@ -25,10 +25,6 @@ if(count($_POST)){
             }
         }
 
-        $login = stripcslashes($login);
-        $login = htmlspecialchars($login);
-        $password = stripcslashes($password);
-        $password = htmlspecialchars($password);
         $login = trim($login);
         $password = trim($password);
 

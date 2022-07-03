@@ -30,12 +30,7 @@
             exit("Вы ввели не всю инфу");
         }
 
-        $login = stripcslashes($login);
-        $login = htmlspecialchars($login);
         $login = trim($login);
-
-        $password = stripcslashes($password);
-        $password = htmlspecialchars($password);
         $password = trim($password);
 
         $db = include ("db.php");
