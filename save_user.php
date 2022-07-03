@@ -1,10 +1,7 @@
 <?php
-    $servername = "localhost";
-    $database = "qwe";
-    $username = "root";
-    $password = "";
-    $db = mysqli_connect("localhost", "root", "", $database);
-
+    $db = include ("db.php");
+    $configs = include('config.php');
+    $domain = $configs['domain'];
     if(!$db){
         die(('failed ' . mysqli_connect_error()));
     }
@@ -44,14 +41,15 @@
         exit("Логин занят");
     }
 
+    $password = password_hash($password, PASSWORD_DEFAULT);
     $result2 = mysqli_query($db,"INSERT INTO users (login, password) VALUES ('$login', '$password')");
 
     if($result2 == 'TRUE'){
         setcookie("login", $login, time() + 2592000);
         setcookie("password", $password, time() + 2592000);
-        header("Location: http://qwerty/index.php");
+        header("Location: http://$domain/index.php");
         exit();
     }
     else{
-        echo "Ошибка!";
+        echo "Ошибка hash!";
     }

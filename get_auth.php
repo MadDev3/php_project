@@ -1,5 +1,8 @@
 <?php
     session_start();
+    $configs = include('config.php');
+    $domain = $configs['domain'];
+
     if(isset($_POST['login'])){
         $login = $_POST['login'];
         if ($login == ''){
@@ -27,10 +30,7 @@
     $password = htmlspecialchars($password);
     $password = trim($password);
 
-    $servername = "localhost";
-    $database = "qwe";
-    $username = "root";
-    $db = mysqli_connect($servername, $username, "", $database);
+    $db = include ("db.php");
 
     $result = mysqli_query($db, "SELECT * FROM users WHERE login='$login'");
 
@@ -42,10 +42,10 @@
         exit ("Извините, введеный вами логин или пароль неверный");
     }
     else{
-        if($myrow['password'] == $password){
+        if(password_verify($password, $myrow['password'])){
             setcookie("login", $login, time() + 2592000);
-            setcookie("password", $password, time() + 2592000);
-            header("Location: http://qwerty/index.php");
+            setcookie("password", $myrow['password'], time() + 2592000);
+            header("Location: http://$domain/index.php");
             echo "Вы успешно вошли на сайт!";
         }
         else{

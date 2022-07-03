@@ -1,8 +1,18 @@
 <?php
     session_start();
+    $configs = include('config.php');
+    $domain = $configs['domain'];
     $login = $_COOKIE['login'];
-    if ($login == ""){
-        header("Location: http://qwerty/registration.php");
+    $password = $_COOKIE['password'];
+
+    $db = include ("db.php");
+    $result = mysqli_query($db, "SELECT * FROM users WHERE login='$login'");
+    $myrow = mysqli_fetch_array($result);
+
+    $isAuth = $password == $myrow['password'] and $login == $myrow['login'];
+
+    if (!$isAuth){
+        header("Location: http://$domain/registration.php");
         exit();
     }
 ?>
