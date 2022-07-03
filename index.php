@@ -5,6 +5,11 @@
     $login = $_COOKIE['login'];
     $password = $_COOKIE['password'];
 
+    if(!$login){
+        header("Location: http://$domain/registration.php");
+        exit();
+    }
+
     $db = include ("db.php");
     $result = mysqli_query($db, "SELECT * FROM users WHERE login='$login'");
     $myrow = mysqli_fetch_array($result);
