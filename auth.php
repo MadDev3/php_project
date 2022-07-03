@@ -54,10 +54,10 @@
                 setcookie("login", $login, time() + 2592000);
                 setcookie("password", $myrow['password'], time() + 2592000);
                 header("Location: http://$domain/index.php");
-                echo "Вы успешно вошли на сайт!";
+                exit();
             }
             else{
-                exit("Извините введеный вами пароль уже занят");
+                $message = "Извините введеный вами пароль неверный";
             }
         }
     }

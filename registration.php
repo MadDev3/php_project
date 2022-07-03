@@ -11,8 +11,6 @@ if(count($_POST)){
             die(('failed ' . mysqli_connect_error()));
         }
 
-        echo "Connected success";
-
         if(isset($_POST['login'])) {
             $login = $_POST['login'];
             if($login == ''){
@@ -27,10 +25,6 @@ if(count($_POST)){
             }
         }
 
-        if(empty($login) or empty($password)){
-            exit("Вы ввели не всю инфу, вернитесь!");
-        }
-
         $login = stripcslashes($login);
         $login = htmlspecialchars($login);
         $password = stripcslashes($password);
@@ -43,26 +37,27 @@ if(count($_POST)){
         $myrow = mysqli_fetch_array($result);
 
         if(!empty($myrow['id'])){
-            exit("Логин занят");
-        }
-
-        $password = password_hash($password, PASSWORD_DEFAULT);
-        $result2 = mysqli_query($db,"INSERT INTO users (login, password) VALUES ('$login', '$password')");
-
-        if($result2 == 'TRUE'){
-            setcookie("login", $login, time() + 2592000);
-            setcookie("password", $password, time() + 2592000);
-            header("Location: http://$domain/index.php");
-            exit();
+            $message = "Логин занят";
         } else {
-            echo "Ошибка hash!";
+            $password = password_hash($password, PASSWORD_DEFAULT);
+            $result2 = mysqli_query($db,"INSERT INTO users (login, password) VALUES ('$login', '$password')");
+
+            if($result2 == 'TRUE'){
+                setcookie("login", $login, time() + 2592000);
+                setcookie("password", $password, time() + 2592000);
+                header("Location: http://$domain/index.php");
+                exit();
+            } else {
+                echo "Ошибка hash!";
+            }
         }
+
+
     }
 }
 
 ?>
-<!doctype html>
-<html lang="ru">
+<html>
 <head>
     <link rel="stylesheet" href="index.css">
 </head>
