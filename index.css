@@ -50,3 +50,8 @@ input{
 .button:hover{
 
 }
+
+.message{
+    font-size: 18px;
+    color: #ff3737;
+}
