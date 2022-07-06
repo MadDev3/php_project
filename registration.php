@@ -27,9 +27,9 @@ if(count($_POST)){
 
         $login = trim($login);
         $password = trim($password);
-        $login = mysqli_real_escape_string($db, $login);
+        $db_login = mysqli_real_escape_string($db, $login);
 
-        $result = mysqli_query($db, "SELECT id FROM users WHERE login=('$login')");
+        $result = mysqli_query($db, "SELECT id FROM users WHERE login=('$db_login')");
 
         $myrow = mysqli_fetch_array($result);
 
@@ -37,11 +37,10 @@ if(count($_POST)){
             $message = "Логин занят";
         } else {
             $password = password_hash($password, PASSWORD_DEFAULT);
-            $result2 = mysqli_query($db,"INSERT INTO users (login, password) VALUES ('$login', '$password')");
+            $result2 = mysqli_query($db,"INSERT INTO users (login, password) VALUES ('$db_login', '$password')");
 
             if($result2 == 'TRUE'){
                 setcookie("login", $login, time() + 2592000);
-                var_dump($_COOKIE['login']);
                 setcookie("password", $password, time() + 2592000);
                 header("Location: http://$domain/index.php");
                 exit();
