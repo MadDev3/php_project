@@ -35,7 +35,9 @@
 
         $db = include ("db.php");
 
-        $result = mysqli_query($db, "SELECT * FROM users WHERE login='$login'");
+        $login = mysqli_real_escape_string($db, $login);
+
+        $result = mysqli_query($db, "SELECT * FROM users WHERE login=('$login')");
 
 
         $myrow = mysqli_fetch_array($result);

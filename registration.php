@@ -27,8 +27,9 @@ if(count($_POST)){
 
         $login = trim($login);
         $password = trim($password);
+        $login = mysqli_real_escape_string($db, $login);
 
-        $result = mysqli_query($db, "SELECT id FROM users WHERE login='$login'");
+        $result = mysqli_query($db, "SELECT id FROM users WHERE login=('$login')");
 
         $myrow = mysqli_fetch_array($result);
 
@@ -40,6 +41,7 @@ if(count($_POST)){
 
             if($result2 == 'TRUE'){
                 setcookie("login", $login, time() + 2592000);
+                var_dump($_COOKIE['login']);
                 setcookie("password", $password, time() + 2592000);
                 header("Location: http://$domain/index.php");
                 exit();

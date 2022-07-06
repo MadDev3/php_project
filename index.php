@@ -16,6 +16,8 @@
 
     $isAuth = $password == $myrow['password'] and $login == $myrow['login'];
 
+    $username = htmlentities($login);
+
     if (!$isAuth){
         header("Location: http://$domain/registration.php");
         exit();
@@ -28,9 +30,7 @@
 </head>
 <body>
 <div class="cont">
-    <h2>Привет, <?php
-    echo $login;
-    ?>
+    <h2>Привет, <?=$username?>
     </h2>
     <br/>
     <div>
